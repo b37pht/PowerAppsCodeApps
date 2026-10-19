@@ -49,6 +49,8 @@ export default defineConfig({
   reporter: isCI ? [["github"], ["html", { open: "never" }]] : "html",
   use: {
     trace: "on-first-retry",
+    // Lets environments with a preinstalled Chromium (e.g. Claude Code cloud sessions) skip the browser download
+    launchOptions: { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined },
   },
   projects: projects[template] ? [projects[template]] : Object.values(projects),
   webServer: webServers[template] ?? Object.values(webServers),
